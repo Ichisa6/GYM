@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1117ff68d66441569f2c75d34b0b3ef3" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="GYMModel.Emploeys" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GYMModel.Exescise" Width="1.5" PointX="0.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GYMModel.Master" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="GYMModel.Rolee" Width="1.5" PointX="0.75" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="GYMModel.Service" Width="1.5" PointX="3" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GYMModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GYMModel.Timesheet" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="GYMModel.Visits" Width="1.5" PointX="7.5" PointY="1.5" IsExpanded="true" />
+        <AssociationConnector Association="GYMModel.FK_Emploeys_Rolee" ManuallyRouted="false" />
+        <AssociationConnector Association="GYMModel.FK_Timesheet_Emploeys" ManuallyRouted="false" />
+        <AssociationConnector Association="GYMModel.FK_Service_Exescise" ManuallyRouted="false" />
+        <AssociationConnector Association="GYMModel.FK_Master_Rolee" ManuallyRouted="false" />
+        <AssociationConnector Association="GYMModel.FK_Timesheet_Service" ManuallyRouted="false" />
+        <AssociationConnector Association="GYMModel.FK_Visits_Timesheet" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="GYMModel.Client" Width="1.5" PointX="7.625" PointY="8" />
+        <EntityTypeShape EntityType="GYMModel.Rank" Width="1.5" PointX="5.375" PointY="8.5" />
+        <AssociationConnector Association="GYMModel.FK_Client_Rank" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

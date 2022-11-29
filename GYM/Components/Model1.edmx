@@ -1,0 +1,592 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище GYMModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="id_client" />
+          </Key>
+          <Property Name="id_client" Type="int" Nullable="false" />
+          <Property Name="FName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="int" Nullable="false" />
+          <Property Name="DataBirth" Type="date" Nullable="false" />
+          <Property Name="Lvl" Type="int" />
+          <Property Name="Rank_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Emploeys">
+          <Key>
+            <PropertyRef Name="id_employ" />
+          </Key>
+          <Property Name="id_employ" Type="int" Nullable="false" />
+          <Property Name="LName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="50" />
+          <Property Name="id_role" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Exescise">
+          <Key>
+            <PropertyRef Name="id_ex" />
+          </Key>
+          <Property Name="id_ex" Type="int" Nullable="false" />
+          <Property Name="type" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Master">
+          <Key>
+            <PropertyRef Name="id_employ" />
+          </Key>
+          <Property Name="id_employ" Type="int" Nullable="false" />
+          <Property Name="FName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Mail" Type="nvarchar" MaxLength="50" />
+          <Property Name="EName" Type="nvarchar" MaxLength="50" />
+          <Property Name="id_role" Type="int" />
+          <Property Name="id_client" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Rank">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Rolee">
+          <Key>
+            <PropertyRef Name="id_role" />
+          </Key>
+          <Property Name="id_role" Type="int" Nullable="false" />
+          <Property Name="NRole" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="id_service" />
+          </Key>
+          <Property Name="id_service" Type="int" Nullable="false" />
+          <Property Name="EName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LVL" Type="int" Nullable="false" />
+          <Property Name="id_ex" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Timesheet">
+          <Key>
+            <PropertyRef Name="id_record" />
+          </Key>
+          <Property Name="id_record" Type="int" Nullable="false" />
+          <Property Name="Data" Type="date" Nullable="false" />
+          <Property Name="id_employ" Type="int" Nullable="false" />
+          <Property Name="id_service" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Visits">
+          <Key>
+            <PropertyRef Name="id_visit" />
+          </Key>
+          <Property Name="id_visit" Type="int" Nullable="false" />
+          <Property Name="numr_card" Type="int" Nullable="false" />
+          <Property Name="id_record" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Client_Rank">
+          <End Role="Rank" Type="Self.Rank" Multiplicity="0..1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rank">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="Rank_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Emploeys_Rolee">
+          <End Role="Rolee" Type="Self.Rolee" Multiplicity="1" />
+          <End Role="Emploeys" Type="Self.Emploeys" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rolee">
+              <PropertyRef Name="id_role" />
+            </Principal>
+            <Dependent Role="Emploeys">
+              <PropertyRef Name="id_role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Master_Rolee">
+          <End Role="Rolee" Type="Self.Rolee" Multiplicity="0..1" />
+          <End Role="Master" Type="Self.Master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rolee">
+              <PropertyRef Name="id_role" />
+            </Principal>
+            <Dependent Role="Master">
+              <PropertyRef Name="id_role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Service_Exescise">
+          <End Role="Exescise" Type="Self.Exescise" Multiplicity="1" />
+          <End Role="Service" Type="Self.Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exescise">
+              <PropertyRef Name="id_ex" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="id_ex" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Timesheet_Emploeys">
+          <End Role="Emploeys" Type="Self.Emploeys" Multiplicity="1" />
+          <End Role="Timesheet" Type="Self.Timesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emploeys">
+              <PropertyRef Name="id_employ" />
+            </Principal>
+            <Dependent Role="Timesheet">
+              <PropertyRef Name="id_employ" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Timesheet_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="1" />
+          <End Role="Timesheet" Type="Self.Timesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="id_service" />
+            </Principal>
+            <Dependent Role="Timesheet">
+              <PropertyRef Name="id_service" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visits_Timesheet">
+          <End Role="Timesheet" Type="Self.Timesheet" Multiplicity="1" />
+          <End Role="Visits" Type="Self.Visits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Timesheet">
+              <PropertyRef Name="id_record" />
+            </Principal>
+            <Dependent Role="Visits">
+              <PropertyRef Name="id_record" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище GYMModelContainer">
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Emploeys" EntityType="Self.Emploeys" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Exescise" EntityType="Self.Exescise" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Master" EntityType="Self.Master" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rank" EntityType="Self.Rank" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rolee" EntityType="Self.Rolee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Timesheet" EntityType="Self.Timesheet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Visits" EntityType="Self.Visits" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Client_Rank" Association="Self.FK_Client_Rank">
+            <End Role="Rank" EntitySet="Rank" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Emploeys_Rolee" Association="Self.FK_Emploeys_Rolee">
+            <End Role="Rolee" EntitySet="Rolee" />
+            <End Role="Emploeys" EntitySet="Emploeys" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Master_Rolee" Association="Self.FK_Master_Rolee">
+            <End Role="Rolee" EntitySet="Rolee" />
+            <End Role="Master" EntitySet="Master" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Service_Exescise" Association="Self.FK_Service_Exescise">
+            <End Role="Exescise" EntitySet="Exescise" />
+            <End Role="Service" EntitySet="Service" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Timesheet_Emploeys" Association="Self.FK_Timesheet_Emploeys">
+            <End Role="Emploeys" EntitySet="Emploeys" />
+            <End Role="Timesheet" EntitySet="Timesheet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Timesheet_Service" Association="Self.FK_Timesheet_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="Timesheet" EntitySet="Timesheet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visits_Timesheet" Association="Self.FK_Visits_Timesheet">
+            <End Role="Timesheet" EntitySet="Timesheet" />
+            <End Role="Visits" EntitySet="Visits" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GYMModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Emploeys">
+          <Key>
+            <PropertyRef Name="id_employ" />
+          </Key>
+          <Property Name="id_employ" Type="Int32" Nullable="false" />
+          <Property Name="LName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Mail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id_role" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Rolee" Relationship="Self.FK_Emploeys_Rolee" FromRole="Emploeys" ToRole="Rolee" />
+          <NavigationProperty Name="Timesheet" Relationship="Self.FK_Timesheet_Emploeys" FromRole="Emploeys" ToRole="Timesheet" />
+        </EntityType>
+        <EntityType Name="Exescise">
+          <Key>
+            <PropertyRef Name="id_ex" />
+          </Key>
+          <Property Name="id_ex" Type="Int32" Nullable="false" />
+          <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Service" Relationship="Self.FK_Service_Exescise" FromRole="Exescise" ToRole="Service" />
+        </EntityType>
+        <EntityType Name="Master">
+          <Key>
+            <PropertyRef Name="id_employ" />
+          </Key>
+          <Property Name="id_employ" Type="Int32" Nullable="false" />
+          <Property Name="FName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Mail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id_role" Type="Int32" />
+          <Property Name="id_client" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Rolee" Relationship="Self.FK_Master_Rolee" FromRole="Master" ToRole="Rolee" />
+        </EntityType>
+        <EntityType Name="Rolee">
+          <Key>
+            <PropertyRef Name="id_role" />
+          </Key>
+          <Property Name="id_role" Type="Int32" Nullable="false" />
+          <Property Name="NRole" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Emploeys" Relationship="Self.FK_Emploeys_Rolee" FromRole="Rolee" ToRole="Emploeys" />
+          <NavigationProperty Name="Master" Relationship="Self.FK_Master_Rolee" FromRole="Rolee" ToRole="Master" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="id_service" />
+          </Key>
+          <Property Name="id_service" Type="Int32" Nullable="false" />
+          <Property Name="EName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LVL" Type="Int32" Nullable="false" />
+          <Property Name="id_ex" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Exescise" Relationship="Self.FK_Service_Exescise" FromRole="Service" ToRole="Exescise" />
+          <NavigationProperty Name="Timesheet" Relationship="Self.FK_Timesheet_Service" FromRole="Service" ToRole="Timesheet" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Timesheet">
+          <Key>
+            <PropertyRef Name="id_record" />
+          </Key>
+          <Property Name="id_record" Type="Int32" Nullable="false" />
+          <Property Name="Data" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="id_employ" Type="Int32" Nullable="false" />
+          <Property Name="id_service" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Emploeys" Relationship="Self.FK_Timesheet_Emploeys" FromRole="Timesheet" ToRole="Emploeys" />
+          <NavigationProperty Name="Service" Relationship="Self.FK_Timesheet_Service" FromRole="Timesheet" ToRole="Service" />
+          <NavigationProperty Name="Visits" Relationship="Self.FK_Visits_Timesheet" FromRole="Timesheet" ToRole="Visits" />
+        </EntityType>
+        <EntityType Name="Visits">
+          <Key>
+            <PropertyRef Name="id_visit" />
+          </Key>
+          <Property Name="id_visit" Type="Int32" Nullable="false" />
+          <Property Name="numr_card" Type="Int32" Nullable="false" />
+          <Property Name="id_record" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Timesheet" Relationship="Self.FK_Visits_Timesheet" FromRole="Visits" ToRole="Timesheet" />
+        </EntityType>
+        <Association Name="FK_Emploeys_Rolee">
+          <End Role="Rolee" Type="Self.Rolee" Multiplicity="1" />
+          <End Role="Emploeys" Type="Self.Emploeys" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rolee">
+              <PropertyRef Name="id_role" />
+            </Principal>
+            <Dependent Role="Emploeys">
+              <PropertyRef Name="id_role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Timesheet_Emploeys">
+          <End Role="Emploeys" Type="Self.Emploeys" Multiplicity="1" />
+          <End Role="Timesheet" Type="Self.Timesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emploeys">
+              <PropertyRef Name="id_employ" />
+            </Principal>
+            <Dependent Role="Timesheet">
+              <PropertyRef Name="id_employ" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Service_Exescise">
+          <End Role="Exescise" Type="Self.Exescise" Multiplicity="1" />
+          <End Role="Service" Type="Self.Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exescise">
+              <PropertyRef Name="id_ex" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="id_ex" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Master_Rolee">
+          <End Role="Rolee" Type="Self.Rolee" Multiplicity="0..1" />
+          <End Role="Master" Type="Self.Master" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rolee">
+              <PropertyRef Name="id_role" />
+            </Principal>
+            <Dependent Role="Master">
+              <PropertyRef Name="id_role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Timesheet_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="1" />
+          <End Role="Timesheet" Type="Self.Timesheet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="id_service" />
+            </Principal>
+            <Dependent Role="Timesheet">
+              <PropertyRef Name="id_service" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Visits_Timesheet">
+          <End Role="Timesheet" Type="Self.Timesheet" Multiplicity="1" />
+          <End Role="Visits" Type="Self.Visits" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Timesheet">
+              <PropertyRef Name="id_record" />
+            </Principal>
+            <Dependent Role="Visits">
+              <PropertyRef Name="id_record" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GHUMIKA" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Emploeys" EntityType="Self.Emploeys" />
+          <EntitySet Name="Exescise" EntityType="Self.Exescise" />
+          <EntitySet Name="Master" EntityType="Self.Master" />
+          <EntitySet Name="Rolee" EntityType="Self.Rolee" />
+          <EntitySet Name="Service" EntityType="Self.Service" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Timesheet" EntityType="Self.Timesheet" />
+          <EntitySet Name="Visits" EntityType="Self.Visits" />
+          <AssociationSet Name="FK_Emploeys_Rolee" Association="Self.FK_Emploeys_Rolee">
+            <End Role="Rolee" EntitySet="Rolee" />
+            <End Role="Emploeys" EntitySet="Emploeys" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Timesheet_Emploeys" Association="Self.FK_Timesheet_Emploeys">
+            <End Role="Emploeys" EntitySet="Emploeys" />
+            <End Role="Timesheet" EntitySet="Timesheet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Service_Exescise" Association="Self.FK_Service_Exescise">
+            <End Role="Exescise" EntitySet="Exescise" />
+            <End Role="Service" EntitySet="Service" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Master_Rolee" Association="Self.FK_Master_Rolee">
+            <End Role="Rolee" EntitySet="Rolee" />
+            <End Role="Master" EntitySet="Master" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Timesheet_Service" Association="Self.FK_Timesheet_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="Timesheet" EntitySet="Timesheet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Visits_Timesheet" Association="Self.FK_Visits_Timesheet">
+            <End Role="Timesheet" EntitySet="Timesheet" />
+            <End Role="Visits" EntitySet="Visits" />
+          </AssociationSet>
+          <EntitySet Name="Client" EntityType="GYMModel.Client" />
+          <EntitySet Name="Rank" EntityType="GYMModel.Rank" />
+          <AssociationSet Name="FK_Client_Rank" Association="GYMModel.FK_Client_Rank">
+            <End Role="Rank" EntitySet="Rank" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="id_client" />
+          </Key>
+          <Property Name="id_client" Type="Int32" Nullable="false" />
+          <Property Name="FName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Mail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="Int32" Nullable="false" />
+          <Property Name="DataBirth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Lvl" Type="Int32" />
+          <Property Name="Rank_id" Type="Int32" />
+          <NavigationProperty Name="Rank" Relationship="GYMModel.FK_Client_Rank" FromRole="Client" ToRole="Rank" />
+        </EntityType>
+        <EntityType Name="Rank">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Client" Relationship="GYMModel.FK_Client_Rank" FromRole="Rank" ToRole="Client" />
+        </EntityType>
+        <Association Name="FK_Client_Rank">
+          <End Type="GYMModel.Rank" Role="Rank" Multiplicity="0..1" />
+          <End Type="GYMModel.Client" Role="Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rank">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="Rank_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище GYMModelContainer" CdmEntityContainer="GHUMIKA">
+          <EntitySetMapping Name="Emploeys">
+            <EntityTypeMapping TypeName="GYMModel.Emploeys">
+              <MappingFragment StoreEntitySet="Emploeys">
+                <ScalarProperty Name="id_employ" ColumnName="id_employ" />
+                <ScalarProperty Name="LName" ColumnName="LName" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="id_role" ColumnName="id_role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Exescise">
+            <EntityTypeMapping TypeName="GYMModel.Exescise">
+              <MappingFragment StoreEntitySet="Exescise">
+                <ScalarProperty Name="id_ex" ColumnName="id_ex" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Master">
+            <EntityTypeMapping TypeName="GYMModel.Master">
+              <MappingFragment StoreEntitySet="Master">
+                <ScalarProperty Name="id_employ" ColumnName="id_employ" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="LName" ColumnName="LName" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="EName" ColumnName="EName" />
+                <ScalarProperty Name="id_role" ColumnName="id_role" />
+                <ScalarProperty Name="id_client" ColumnName="id_client" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rolee">
+            <EntityTypeMapping TypeName="GYMModel.Rolee">
+              <MappingFragment StoreEntitySet="Rolee">
+                <ScalarProperty Name="id_role" ColumnName="id_role" />
+                <ScalarProperty Name="NRole" ColumnName="NRole" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Service">
+            <EntityTypeMapping TypeName="GYMModel.Service">
+              <MappingFragment StoreEntitySet="Service">
+                <ScalarProperty Name="id_service" ColumnName="id_service" />
+                <ScalarProperty Name="EName" ColumnName="EName" />
+                <ScalarProperty Name="LVL" ColumnName="LVL" />
+                <ScalarProperty Name="id_ex" ColumnName="id_ex" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="GYMModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Timesheet">
+            <EntityTypeMapping TypeName="GYMModel.Timesheet">
+              <MappingFragment StoreEntitySet="Timesheet">
+                <ScalarProperty Name="id_record" ColumnName="id_record" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="id_employ" ColumnName="id_employ" />
+                <ScalarProperty Name="id_service" ColumnName="id_service" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Visits">
+            <EntityTypeMapping TypeName="GYMModel.Visits">
+              <MappingFragment StoreEntitySet="Visits">
+                <ScalarProperty Name="id_visit" ColumnName="id_visit" />
+                <ScalarProperty Name="numr_card" ColumnName="numr_card" />
+                <ScalarProperty Name="id_record" ColumnName="id_record" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Client">
+            <EntityTypeMapping TypeName="GYMModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="Rank_id" ColumnName="Rank_id" />
+                <ScalarProperty Name="Lvl" ColumnName="Lvl" />
+                <ScalarProperty Name="DataBirth" ColumnName="DataBirth" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="LName" ColumnName="LName" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="id_client" ColumnName="id_client" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rank">
+            <EntityTypeMapping TypeName="GYMModel.Rank">
+              <MappingFragment StoreEntitySet="Rank">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
